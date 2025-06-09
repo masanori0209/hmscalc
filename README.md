@@ -18,6 +18,9 @@ docker build -t hmscalc .
 
 # Run tests across multiple Python versions
 docker run --rm hmscalc ./runtests.sh
+
+# Run lint
+docker run --rm hmscalc ./lint.sh
 ```
 
 ## 📦 Project Structure
