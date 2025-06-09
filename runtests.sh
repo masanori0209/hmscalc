@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-PYTHON_VERSIONS=("3.9" "3.10" "3.11" "3.12")
+PYTHON_VERSIONS=("3.9.19" "3.10.14" "3.11.9" "3.12.3")
 
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
