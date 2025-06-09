@@ -1,5 +1,8 @@
 # hmscalc
 
+[![PyPI version](https://img.shields.io/pypi/v/hmscalc.svg)](https://pypi.org/project/hmscalc/)
+[![Python versions](https://img.shields.io/pypi/pyversions/hmscalc.svg)](https://pypi.org/project/hmscalc/)
+
 A lightweight Python library for performing arithmetic on time values formatted as `HH:MM` or `HH:MM:SS`.
 
 ## 🚀 Features
