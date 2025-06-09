@@ -1,4 +1,5 @@
 """Module for handling time in hours, minutes, and seconds (HMS) format."""
+
 import re
 
 from .exceptions import InvalidTimeFormatError, NotTimeStringError
@@ -35,9 +36,7 @@ class HMSTime:
             HMSTime: The sum of the two times.
 
         """
-        return HMSTime.from_seconds(
-            self.total_seconds + other.total_seconds
-        )
+        return HMSTime.from_seconds(self.total_seconds + other.total_seconds)
 
     def __sub__(self, other: "HMSTime") -> "HMSTime":
         """Subtract another HMSTime object from this one and return a new HMSTime object.
@@ -51,9 +50,7 @@ class HMSTime:
             HMSTime: The difference of the two times.
 
         """
-        return HMSTime.from_seconds(
-            self.total_seconds - other.total_seconds
-        )
+        return HMSTime.from_seconds(self.total_seconds - other.total_seconds)
 
     def __str__(self) -> str:
         """Return the string representation of the HMSTime object in 'HH:MM:SS' format.

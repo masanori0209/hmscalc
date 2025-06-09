@@ -14,8 +14,8 @@ for VERSION in "${PYTHON_VERSIONS[@]}"; do
   poetry env use $VERSION
   poetry install
   poetry run ruff check hmscalc tests --fix
-  poetry run black --check hmscalc tests
-  poetry run isort --check hmscalc tests
+  poetry run black hmscalc tests
+  poetry run isort hmscalc tests
   poetry run mypy hmscalc tests
   echo "==> Lint passed for Python $VERSION."
 done
