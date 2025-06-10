@@ -1,6 +1,7 @@
 """Module for handling time in hours, minutes, and seconds (HMS) format."""
 
 import re
+from typing import Iterable
 
 from .exceptions import InvalidTimeFormatError, NotTimeStringError
 
@@ -115,6 +116,35 @@ class HMSTime:
         instance = cls.__new__(cls)
         instance.total_seconds = total_seconds
         return instance
+
+    @classmethod
+    def sum(cls, times: Iterable["HMSTime"]) -> "HMSTime":
+        """Sum multiple HMSTime objects and return a new HMSTime object.
+
+        Args:
+        ----
+            times (Iterable[HMSTime]): An iterable of HMSTime objects to sum.
+
+        Returns:
+        -------
+            HMSTime: The sum of all the times.
+
+        Raises:
+        ------
+            TypeError: If the input is not iterable or contains non-HMSTime objects.
+
+        """
+        try:
+            total_seconds = 0
+            for time_obj in times:
+                if not isinstance(time_obj, cls):
+                    raise TypeError(f"All items must be HMSTime objects, got: {type(time_obj).__name__}")
+                total_seconds += time_obj.total_seconds
+            return cls.from_seconds(total_seconds)
+        except TypeError as e:
+            if "not iterable" in str(e):
+                raise TypeError("Input must be an iterable of HMSTime objects") from e
+            raise
 
     @staticmethod
     def _parse_time_string(time_str: str) -> int:

@@ -13,6 +13,7 @@ dist/
 *.egg-info/
 .cache/
 .pytest_cache/
+.mypy_cache/
 .vscode/
 .idea/
 .DS_Store

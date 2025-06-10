@@ -69,3 +69,68 @@ def test_non_string_input() -> None:
     """Test that a non-string input raises NotTimeStringError."""
     with pytest.raises(NotTimeStringError):
         HMSTime(123)  # type: ignore[arg-type]
+
+
+def test_sum_multiple_times() -> None:
+    """Test summing multiple HMSTime objects using the sum class method."""
+    times = [HMSTime("1:30:15"), HMSTime("2:15:45"), HMSTime("0:45:30"), HMSTime("1:00:00")]
+    result = HMSTime.sum(times)
+    assert str(result) == "5:31:30"
+
+
+def test_sum_empty_list() -> None:
+    """Test summing an empty list returns zero time."""
+    result = HMSTime.sum([])
+    assert str(result) == "0:00:00"
+
+
+def test_sum_single_time() -> None:
+    """Test summing a single time returns that time."""
+    times = [HMSTime("2:30:45")]
+    result = HMSTime.sum(times)
+    assert str(result) == "2:30:45"
+
+
+def test_sum_with_negative_times() -> None:
+    """Test summing times that include negative values."""
+    times = [HMSTime("5:00:00"), HMSTime("-2:30:00"), HMSTime("1:15:30")]
+    result = HMSTime.sum(times)
+    assert str(result) == "3:45:30"
+
+
+def test_sum_all_negative() -> None:
+    """Test summing all negative times results in negative total."""
+    times = [HMSTime("-1:00:00"), HMSTime("-0:30:00"), HMSTime("-0:15:30")]
+    result = HMSTime.sum(times)
+    assert str(result) == "-1:45:30"
+
+
+def test_sum_mixed_formats() -> None:
+    """Test summing times with different input formats (HH:MM and HH:MM:SS)."""
+    times = [
+        HMSTime("1:30"),  # HH:MM format
+        HMSTime("2:15:45"),  # HH:MM:SS format
+        HMSTime("0:45"),  # HH:MM format
+        HMSTime("1:00:15"),  # HH:MM:SS format
+    ]
+    result = HMSTime.sum(times)
+    assert str(result) == "5:31:00"
+
+
+def test_sum_large_values() -> None:
+    """Test summing times that result in large hour values."""
+    times = [HMSTime("23:59:59"), HMSTime("1:00:01"), HMSTime("48:30:30")]
+    result = HMSTime.sum(times)
+    assert str(result) == "73:30:30"
+
+
+def test_sum_type_error() -> None:
+    """Test that sum raises TypeError when given non-HMSTime objects."""
+    with pytest.raises(TypeError):
+        HMSTime.sum([HMSTime("1:00:00"), "2:00:00"])  # type: ignore[list-item]
+
+
+def test_sum_not_iterable() -> None:
+    """Test that sum raises TypeError when given non-iterable input."""
+    with pytest.raises(TypeError):
+        HMSTime.sum(HMSTime("1:00:00"))  # type: ignore[arg-type]
