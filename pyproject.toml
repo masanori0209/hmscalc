@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "hmscalc"
-version = "0.3.0"
+version = "0.3.1"
 description = "A Python library for performing arithmetic with HH:MM[:SS] formatted time strings."
 authors = ["M0209 <masanorimurakoshi0209@gmail.com>"]
 license = "MIT"
