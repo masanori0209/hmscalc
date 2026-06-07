@@ -15,7 +15,11 @@ A lightweight Python library for performing arithmetic on time values formatted 
 - Converts time to seconds, minutes, hours, timedelta, and dictionary/tuple formats
 - Integration with `datetime.timedelta`
 - Custom exceptions for invalid input
-- Fully testable across multiple Python versions via Docker
+- Fully testable across Python 3.9–3.14 via Docker
+
+## Supported Python versions
+
+Python **3.9** through **3.14** (and later 3.x releases within the `^3.9` constraint).
 
 ## 🐳 Quick Start (Docker-based)
 
@@ -155,7 +159,7 @@ print(f"Total work time: {total_work}")  # "4:30:45"
 # Build image
 docker build -t hmscalc .
 
-# Run matrix tests via pyenv + poetry
+# Run matrix tests via pyenv + poetry (Python 3.9–3.14)
 docker run --rm hmscalc ./runtests.sh
 ```
 
