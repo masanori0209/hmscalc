@@ -1,9 +1,11 @@
 """Unit tests for the HMSTime class and related exceptions in hmscalc.hms_time."""
 
+import datetime
+import operator
+
 import pytest
 
-from hmscalc.exceptions import InvalidTimeFormatError, NotTimeStringError
-from hmscalc.hms_time import HMSTime
+from hmscalc import HMSTime, InvalidTimeFormatError, NotTimeStringError
 
 
 def test_addition() -> None:
@@ -33,6 +35,11 @@ def test_str_format() -> None:
     assert str(HMSTime("1:02:03")) == "1:02:03"
 
 
+def test_repr() -> None:
+    """Test repr of HMSTime objects."""
+    assert repr(HMSTime("1:02:03")) == "HMSTime('1:02:03')"
+
+
 def test_comparisons() -> None:
     """Test comparison operators for HMSTime objects."""
     a = HMSTime("1:00:00")
@@ -54,9 +61,18 @@ def test_to_methods() -> None:
     t = HMSTime("1:02:03")
     assert t.to_seconds() == 3723
     assert t.to_tuple() == (1, 2, 3)
-    assert t.to_dict() == {"hh": 1, "mm": 2, "ss": 3}
+    assert t.to_dict() == {"hh": 1, "mm": 2, "ss": 3, "negative": False}
     assert abs(t.to_minutes() - 62.05) < 0.01
     assert abs(t.to_hours() - 1.034) < 0.01
+
+
+def test_negative_to_methods() -> None:
+    """Test conversion methods preserve sign information for negative values."""
+    t = HMSTime("-1:00:00")
+    assert t.to_seconds() == -3600
+    assert t.is_negative is True
+    assert t.to_tuple() == (1, 0, 0)
+    assert t.to_dict() == {"hh": 1, "mm": 0, "ss": 0, "negative": True}
 
 
 def test_invalid_format() -> None:
@@ -65,10 +81,66 @@ def test_invalid_format() -> None:
         HMSTime("invalid")
 
 
+def test_invalid_minute_second_range() -> None:
+    """Test that minute or second values >= 60 raise InvalidTimeFormatError."""
+    with pytest.raises(InvalidTimeFormatError):
+        HMSTime("1:99:00")
+    with pytest.raises(InvalidTimeFormatError):
+        HMSTime("1:00:60")
+    with pytest.raises(InvalidTimeFormatError):
+        HMSTime("0:60:00")
+
+
+def test_empty_string_raises() -> None:
+    """Test that an empty string raises InvalidTimeFormatError."""
+    with pytest.raises(InvalidTimeFormatError):
+        HMSTime("")
+
+
 def test_non_string_input() -> None:
     """Test that a non-string input raises NotTimeStringError."""
     with pytest.raises(NotTimeStringError):
         HMSTime(123)  # type: ignore[arg-type]
+
+
+def test_arithmetic_type_error() -> None:
+    """Test that arithmetic with non-HMSTime raises TypeError."""
+    t = HMSTime("1:00:00")
+    with pytest.raises(TypeError):
+        _ = t + "2:00:00"
+    with pytest.raises(TypeError):
+        _ = t - "2:00:00"
+
+
+def test_comparison_type_error() -> None:
+    """Test that comparison with non-HMSTime raises TypeError."""
+    t = HMSTime("1:00:00")
+    with pytest.raises(TypeError):
+        operator.lt(t, None)  # type: ignore[arg-type]
+    with pytest.raises(TypeError):
+        operator.gt(t, "1:00:00")
+
+
+def test_from_seconds() -> None:
+    """Test creating HMSTime from seconds directly."""
+    t = HMSTime.from_seconds(3661)
+    assert str(t) == "1:01:01"
+    assert t.to_seconds() == 3661
+
+
+def test_from_timedelta() -> None:
+    """Test creating HMSTime from datetime.timedelta."""
+    delta = datetime.timedelta(hours=1, minutes=30, seconds=15)
+    t = HMSTime.from_timedelta(delta)
+    assert str(t) == "1:30:15"
+    assert t.to_timedelta() == delta
+
+
+def test_package_import() -> None:
+    """Test that HMSTime can be imported from the package root."""
+    from hmscalc import HMSTime as ImportedHMSTime
+
+    assert ImportedHMSTime("1:00:00").to_seconds() == 3600
 
 
 def test_sum_multiple_times() -> None:
@@ -134,3 +206,36 @@ def test_sum_not_iterable() -> None:
     """Test that sum raises TypeError when given non-iterable input."""
     with pytest.raises(TypeError):
         HMSTime.sum(HMSTime("1:00:00"))  # type: ignore[arg-type]
+
+
+def test_average() -> None:
+    """Test average of multiple HMSTime objects."""
+    times = [HMSTime("1:00:00"), HMSTime("3:00:00")]
+    assert str(HMSTime.average(times)) == "2:00:00"
+
+
+def test_average_rounds_to_nearest_second() -> None:
+    """Test that average rounds to the nearest second."""
+    times = [HMSTime("0:00:01"), HMSTime("0:00:02")]
+    assert str(HMSTime.average(times)) == "0:00:02"
+
+
+def test_average_empty_raises() -> None:
+    """Test that average of empty iterable raises ValueError."""
+    with pytest.raises(ValueError):
+        HMSTime.average([])
+
+
+def test_min_max() -> None:
+    """Test min and max class methods."""
+    times = [HMSTime("1:00:00"), HMSTime("3:00:00"), HMSTime("0:30:00")]
+    assert str(HMSTime.min(times)) == "0:30:00"
+    assert str(HMSTime.max(times)) == "3:00:00"
+
+
+def test_min_max_empty_raises() -> None:
+    """Test that min/max of empty iterable raises ValueError."""
+    with pytest.raises(ValueError):
+        HMSTime.min([])
+    with pytest.raises(ValueError):
+        HMSTime.max([])
