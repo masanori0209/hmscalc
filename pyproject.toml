@@ -1,11 +1,24 @@
 [tool.poetry]
 name = "hmscalc"
-version = "0.3.0"
+version = "0.3.1"
 description = "A Python library for performing arithmetic with HH:MM[:SS] formatted time strings."
 authors = ["M0209 <masanorimurakoshi0209@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 packages = [{ include = "hmscalc" }]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
 
 [tool.poetry.dependencies]
 python = "^3.9"

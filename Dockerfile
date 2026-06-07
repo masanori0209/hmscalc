@@ -24,7 +24,9 @@ ENV PATH="/root/.local/bin:$PATH"
 RUN /root/.pyenv/bin/pyenv install 3.9.19 && \
     /root/.pyenv/bin/pyenv install 3.10.14 && \
     /root/.pyenv/bin/pyenv install 3.11.9 && \
-    /root/.pyenv/bin/pyenv install 3.12.3
+    /root/.pyenv/bin/pyenv install 3.12.3 && \
+    /root/.pyenv/bin/pyenv install 3.13.13 && \
+    /root/.pyenv/bin/pyenv install 3.14.5
 
 WORKDIR /app
 COPY . /app
