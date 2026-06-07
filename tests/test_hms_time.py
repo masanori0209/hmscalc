@@ -239,3 +239,48 @@ def test_min_max_empty_raises() -> None:
         HMSTime.min([])
     with pytest.raises(ValueError):
         HMSTime.max([])
+
+
+def test_whitespace_trimmed() -> None:
+    """Test that surrounding whitespace in input is ignored."""
+    assert str(HMSTime(" 1:30:15 ")) == "1:30:15"
+    assert str(HMSTime("\t2:00:00\n")) == "2:00:00"
+
+
+def test_scalar_multiply() -> None:
+    """Test scalar multiplication of HMSTime."""
+    t = HMSTime("1:00:00")
+    assert str(t * 2) == "2:00:00"
+    assert str(3 * t) == "3:00:00"
+    assert str(t * 0.5) == "0:30:00"
+
+
+def test_scalar_divide() -> None:
+    """Test scalar division of HMSTime."""
+    t = HMSTime("1:30:00")
+    assert str(t / 2) == "0:45:00"
+    assert str(t / 4) == "0:22:30"
+
+
+def test_scalar_divide_by_zero() -> None:
+    """Test that division by zero raises ZeroDivisionError."""
+    with pytest.raises(ZeroDivisionError):
+        HMSTime("1:00:00") / 0
+
+
+def test_scalar_type_error() -> None:
+    """Test that scalar ops with invalid types raise TypeError."""
+    t = HMSTime("1:00:00")
+    with pytest.raises(TypeError):
+        _ = t * "2"
+    with pytest.raises(TypeError):
+        _ = t / "2"
+
+
+def test_hashable() -> None:
+    """Test that HMSTime can be used in sets and as dict keys."""
+    a = HMSTime("1:00:00")
+    b = HMSTime("2:00:00")
+    assert len({a, b, a}) == 2
+    d = {a: "one", b: "two"}
+    assert d[a] == "one"

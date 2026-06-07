@@ -120,6 +120,43 @@ class HMSTime:
             return NotImplemented
         return self.total_seconds != other.total_seconds
 
+    def __hash__(self) -> int:
+        """Return a hash based on total seconds."""
+        return hash(self.total_seconds)
+
+    def __mul__(self, other: object) -> "HMSTime":
+        """Multiply this time by a numeric scalar."""
+        if isinstance(other, (int, float)):
+            return HMSTime.from_seconds(round(self.total_seconds * other))
+        return NotImplemented
+
+    def __rmul__(self, other: object) -> "HMSTime":
+        """Support scalar * HMSTime."""
+        if isinstance(other, (int, float)):
+            return HMSTime.from_seconds(round(self.total_seconds * other))
+        return NotImplemented
+
+    def __truediv__(self, other: object) -> "HMSTime":
+        """Divide this time by a numeric scalar."""
+        if isinstance(other, (int, float)):
+            if other == 0:
+                raise ZeroDivisionError("Cannot divide HMSTime by zero")
+            return HMSTime.from_seconds(round(self.total_seconds / other))
+        return NotImplemented
+
+    @classmethod
+    def _time_list(cls, times: Iterable["HMSTime"], *, empty_error: str | None = None) -> list["HMSTime"]:
+        """Convert an iterable to a validated list of HMSTime objects."""
+        try:
+            time_list = list(times)
+        except TypeError as e:
+            raise TypeError("Input must be an iterable of HMSTime objects") from e
+        if empty_error is not None and not time_list:
+            raise ValueError(empty_error)
+        if time_list and not all(isinstance(t, cls) for t in time_list):
+            raise TypeError("All items must be HMSTime objects")
+        return time_list
+
     @classmethod
     def from_seconds(cls, total_seconds: int) -> "HMSTime":
         """Create an HMSTime object from a total number of seconds.
@@ -171,9 +208,7 @@ class HMSTime:
         """
         try:
             total_seconds = 0
-            for time_obj in times:
-                if not isinstance(time_obj, cls):
-                    raise TypeError(f"All items must be HMSTime objects, got: {type(time_obj).__name__}")
+            for time_obj in cls._time_list(times):
                 total_seconds += time_obj.total_seconds
             return cls.from_seconds(total_seconds)
         except TypeError as e:
@@ -199,11 +234,7 @@ class HMSTime:
             ValueError: If the iterable is empty.
 
         """
-        time_list = list(times)
-        if not time_list:
-            raise ValueError("Cannot compute average of an empty iterable")
-        if not all(isinstance(t, cls) for t in time_list):
-            raise TypeError("All items must be HMSTime objects")
+        time_list = cls._time_list(times, empty_error="Cannot compute average of an empty iterable")
         total_seconds = sum(t.total_seconds for t in time_list)
         return cls.from_seconds(round(total_seconds / len(time_list)))
 
@@ -225,11 +256,7 @@ class HMSTime:
             ValueError: If the iterable is empty.
 
         """
-        time_list = list(times)
-        if not time_list:
-            raise ValueError("Cannot compute min of an empty iterable")
-        if not all(isinstance(t, cls) for t in time_list):
-            raise TypeError("All items must be HMSTime objects")
+        time_list = cls._time_list(times, empty_error="Cannot compute min of an empty iterable")
         return min(time_list, key=lambda t: t.total_seconds)
 
     @classmethod
@@ -250,11 +277,7 @@ class HMSTime:
             ValueError: If the iterable is empty.
 
         """
-        time_list = list(times)
-        if not time_list:
-            raise ValueError("Cannot compute max of an empty iterable")
-        if not all(isinstance(t, cls) for t in time_list):
-            raise TypeError("All items must be HMSTime objects")
+        time_list = cls._time_list(times, empty_error="Cannot compute max of an empty iterable")
         return max(time_list, key=lambda t: t.total_seconds)
 
     @staticmethod
@@ -277,6 +300,10 @@ class HMSTime:
         """
         if not isinstance(time_str, str):
             raise NotTimeStringError(time_str)
+
+        time_str = time_str.strip()
+        if not time_str:
+            raise InvalidTimeFormatError(time_str)
 
         match = re.fullmatch(r"(-)?(\d+):(\d{1,2})(?::(\d{1,2}))?", time_str)
         if not match:

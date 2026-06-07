@@ -1,11 +1,12 @@
 [tool.poetry]
 name = "hmscalc"
-version = "0.3.1"
-description = "A Python library for performing arithmetic with HH:MM[:SS] formatted time strings."
+version = "0.4.0"
+description = "Add and subtract HH:MM[:SS] time strings in Python — durations, aggregation, and timedelta integration."
 authors = ["M0209 <masanorimurakoshi0209@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 packages = [{ include = "hmscalc" }]
+keywords = ["time", "duration", "hms", "hours", "minutes", "seconds", "timedelta"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -20,11 +21,19 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
+[tool.poetry.urls]
+Homepage = "https://github.com/masanori0209/hmscalc"
+Repository = "https://github.com/masanori0209/hmscalc"
+Documentation = "https://github.com/masanori0209/hmscalc#readme"
+Changelog = "https://github.com/masanori0209/hmscalc/blob/main/CHANGELOG.md"
+"Issue Tracker" = "https://github.com/masanori0209/hmscalc/issues"
+
 [tool.poetry.dependencies]
 python = "^3.9"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.0"
+pytest-cov = "^6.0.0"
 black = "^24.0.0"
 isort = "^5.12.0"
 mypy = "^1.9.0"
