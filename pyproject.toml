@@ -6,9 +6,6 @@ authors = ["M0209 <masanorimurakoshi0209@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 packages = [{ include = "hmscalc" }]
-
-[tool.poetry.dependencies]
-python = "^3.9"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -22,6 +19,9 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
+
+[tool.poetry.dependencies]
+python = "^3.9"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.0"
