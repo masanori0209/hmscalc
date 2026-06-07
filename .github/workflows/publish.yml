@@ -10,21 +10,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       - name: Install Poetry
-        run: curl -sSL https://install.python-poetry.org | python3 -
+        run: |
+          pip install poetry
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Run tests
+        run: poetry run pytest
 
       - name: Configure Poetry
         run: poetry config pypi-token.pypi ${{ secrets.PYPI_API_TOKEN }}
-
-      - name: Install dependencies
-        run: poetry install --no-interaction --no-root
 
       - name: Publish to PyPI
         run: poetry publish --build
