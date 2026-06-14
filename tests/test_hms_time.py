@@ -128,6 +128,16 @@ def test_from_seconds() -> None:
     assert t.to_seconds() == 3661
 
 
+def test_from_seconds_type_error() -> None:
+    """Test from_seconds rejects non-int input."""
+    with pytest.raises(TypeError, match="must be an int"):
+        HMSTime.from_seconds(3.14)  # type: ignore[arg-type]
+    with pytest.raises(TypeError, match="must be an int"):
+        HMSTime.from_seconds("3600")  # type: ignore[arg-type]
+    with pytest.raises(TypeError, match="must be an int"):
+        HMSTime.from_seconds(True)
+
+
 def test_from_timedelta() -> None:
     """Test creating HMSTime from datetime.timedelta."""
     delta = datetime.timedelta(hours=1, minutes=30, seconds=15)

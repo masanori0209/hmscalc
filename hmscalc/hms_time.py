@@ -169,7 +169,13 @@ class HMSTime:
         -------
             HMSTime: The corresponding HMSTime object.
 
+        Raises:
+        ------
+            TypeError: If ``total_seconds`` is not an ``int`` (``bool`` is rejected).
+
         """
+        if isinstance(total_seconds, bool) or not isinstance(total_seconds, int):
+            raise TypeError("total_seconds must be an int")
         instance = cls.__new__(cls)
         instance.total_seconds = total_seconds
         return instance

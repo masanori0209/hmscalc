@@ -43,6 +43,24 @@ print(a / 2)   # "0:45:07"
 - Input whitespace trimming (`" 1:30:15 "`)
 - Type hints with `py.typed` marker
 - Python **3.9** through **3.14**
+- CLI: `hmscalc add` / `sub` / `sum` from the terminal
+
+## CLI
+
+After `pip install hmscalc`:
+
+```bash
+hmscalc add 1:30 2:15 0:45
+# 4:30:00
+
+hmscalc sub 2:00 0:45
+# 1:15:00
+
+hmscalc sum 1:00 2:00 3:00
+# 6:00:00
+```
+
+Equivalent: `python -m hmscalc add 1:00 2:00`
 
 ## Usage
 
@@ -51,6 +69,16 @@ print(a / 2)   # "0:45:07"
 ```python
 from hmscalc import HMSTime
 ```
+
+### Creating HMSTime (string vs seconds vs timedelta)
+
+| Input | Recommended API | Example |
+|-------|-----------------|---------|
+| `"1:30:15"` string | `HMSTime("1:30:15")` | Human-readable durations |
+| Integer seconds | `HMSTime.from_seconds(3661)` | Programmatic / computed values |
+| `datetime.timedelta` | `HMSTime.from_timedelta(delta)` | Interop with stdlib datetime |
+
+`HMSTime(...)` accepts **strings only**. Use `from_seconds()` for numeric seconds (`TypeError` if not `int`).
 
 ### Basic Operations
 
@@ -203,6 +231,7 @@ Docker matrix (Python 3.9–3.14): `docker build -t hmscalc . && docker run --rm
 - [Changelog](CHANGELOG.md)
 - [Contributing](CONTRIBUTING.md)
 - [Roadmap (v1.0.0)](https://github.com/masanori0209/hmscalc/issues/20)
+- [Zenn: 作業時間を HH:MM で足し算する（チュートリアル）](docs/articles/work-time-tutorial.md) — 公開用下書き
 - [Zenn: PyPI 公開の記事](https://zenn.dev/m2lab/articles/454a3a0dd27dc8)
 
 ## License
