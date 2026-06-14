@@ -294,3 +294,42 @@ def test_hashable() -> None:
     assert len({a, b, a}) == 2
     d = {a: "one", b: "two"}
     assert d[a] == "one"
+
+
+def test_from_iso8601() -> None:
+    """Test parsing ISO 8601 time durations."""
+    assert str(HMSTime.from_iso8601("PT1H30M15S")) == "1:30:15"
+    assert str(HMSTime.from_iso8601("PT30M")) == "0:30:00"
+    assert str(HMSTime.from_iso8601("-PT1H")) == "-1:00:00"
+    assert HMSTime.from_iso8601("PT0S").to_seconds() == 0
+
+
+def test_to_iso8601_roundtrip() -> None:
+    """Test ISO 8601 output round-trips through from_iso8601."""
+    original = HMSTime("1:30:15")
+    iso = original.to_iso8601()
+    assert iso == "PT1H30M15S"
+    assert HMSTime.from_iso8601(iso) == original
+
+
+def test_iso8601_invalid() -> None:
+    """Test invalid ISO 8601 durations raise errors."""
+    with pytest.raises(InvalidTimeFormatError):
+        HMSTime.from_iso8601("P1D")
+    with pytest.raises(InvalidTimeFormatError):
+        HMSTime.from_iso8601("PT")
+
+
+def test_format() -> None:
+    """Test custom format output."""
+    t = HMSTime("1:30:15")
+    assert t.format("HH:MM:SS") == "1:30:15"
+    assert t.format("HH:MM") == "1:30"
+    assert str(t) == t.format("HH:MM:SS")
+    assert HMSTime("-1:00:00").format("HH:MM") == "-1:00"
+
+
+def test_format_invalid() -> None:
+    """Test unsupported format raises ValueError."""
+    with pytest.raises(ValueError, match="Unsupported format"):
+        HMSTime("1:00:00").format("signed")

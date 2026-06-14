@@ -134,6 +134,24 @@ delta = t.to_timedelta()
 restored = HMSTime.from_timedelta(delta)  # HMSTime("1:30:15")
 ```
 
+### ISO 8601 Duration
+
+```python
+t = HMSTime.from_iso8601("PT1H30M15S")
+print(t.to_iso8601())  # "PT1H30M15S"
+print(str(t))          # "1:30:15"
+```
+
+Time section only (`PT…`); date parts like `P1D` are not supported.
+
+### Custom Output Format
+
+```python
+t = HMSTime("1:30:15")
+t.format("HH:MM")     # "1:30"
+t.format("HH:MM:SS")  # "1:30:15" — same as str(t)
+```
+
 ### Error Handling
 
 ```python
@@ -176,6 +194,7 @@ Parse `HH:MM` or `HH:MM:SS`. Whitespace is trimmed. Hours may exceed 24 (duratio
 |--------|-------------|
 | `HMSTime.from_seconds(total_seconds: int)` | Build from integer seconds |
 | `HMSTime.from_timedelta(delta)` | Build from `datetime.timedelta` |
+| `HMSTime.from_iso8601(duration)` | Build from ISO 8601 `PT…` duration |
 | `HMSTime.sum(times)` | Sum iterable; empty → `"0:00:00"` |
 | `HMSTime.average(times)` | Mean, rounded to nearest second |
 | `HMSTime.min(times)` / `HMSTime.max(times)` | Min / max of iterable |
@@ -188,6 +207,8 @@ Parse `HH:MM` or `HH:MM:SS`. Whitespace is trimmed. Hours may exceed 24 (duratio
 | `to_seconds()` | Integer total seconds (signed) |
 | `to_minutes()` / `to_hours()` | Float conversion |
 | `to_timedelta()` | `datetime.timedelta` |
+| `to_iso8601()` | ISO 8601 `PT…` string |
+| `format(fmt)` | `"HH:MM"` or `"HH:MM:SS"` (`__str__` = `format("HH:MM:SS")`) |
 | `to_tuple()` | `(hh, mm, ss)` absolute components |
 | `to_dict()` | `{'hh', 'mm', 'ss', 'negative'}` |
 
@@ -213,6 +234,7 @@ from hmscalc import HMSTimeError, InvalidTimeFormatError, NotTimeStringError
 - Minutes and seconds: 0–59
 - Optional leading `-` for negative durations
 - Surrounding whitespace is ignored
+- Strict mode only: overflow minutes/seconds (e.g. `1:90:00`) are rejected — see [Input Policy](docs/INPUT_POLICY.md)
 
 ## Development
 

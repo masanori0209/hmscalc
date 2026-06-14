@@ -8,6 +8,12 @@ from typing import Iterable
 
 from .exceptions import InvalidTimeFormatError, NotTimeStringError
 
+_ISO8601_DURATION_RE = re.compile(
+    r"^(-?)PT(?:(\d+(?:\.\d+)?)H)?(?:(\d+(?:\.\d+)?)M)?(?:(\d+(?:\.\d+)?)S)?$",
+    re.IGNORECASE,
+)
+_SUPPORTED_FORMATS = frozenset({"HH:MM", "HH:MM:SS"})
+
 
 class HMSTime:
     """Class to represent and manipulate time in hours, minutes, and seconds (HMS) format.
@@ -196,6 +202,55 @@ class HMSTime:
         return cls.from_seconds(int(delta.total_seconds()))
 
     @classmethod
+    def from_iso8601(cls, duration: str) -> "HMSTime":
+        """Create an HMSTime from an ISO 8601 duration time component (``PT…``).
+
+        Supports ``PT1H30M15S``, ``PT30M``, ``-PT1H``, etc. Date components (``P1D``)
+        are not supported.
+
+        Args:
+        ----
+            duration (str): ISO 8601 duration string with a time section.
+
+        Returns:
+        -------
+            HMSTime: The parsed duration.
+
+        Raises:
+        ------
+            NotTimeStringError: If input is not a string.
+            InvalidTimeFormatError: If the string is not a valid time-only ISO 8601 duration.
+
+        """
+        if not isinstance(duration, str):
+            raise NotTimeStringError(duration)
+
+        duration = duration.strip()
+        if not duration:
+            raise InvalidTimeFormatError(duration)
+
+        match = _ISO8601_DURATION_RE.fullmatch(duration)
+        if not match:
+            raise InvalidTimeFormatError(duration)
+
+        neg, hours, minutes, seconds = match.groups()
+        if hours is None and minutes is None and seconds is None:
+            raise InvalidTimeFormatError(duration)
+
+        total = 0.0
+        if hours is not None:
+            total += float(hours) * 3600
+        if minutes is not None:
+            total += float(minutes) * 60
+        if seconds is not None:
+            total += float(seconds)
+
+        total_seconds = round(total)
+        if neg:
+            total_seconds = -total_seconds
+        return cls.from_seconds(total_seconds)
+
+    @classmethod
     def sum(cls, times: Iterable["HMSTime"]) -> "HMSTime":
         """Sum multiple HMSTime objects and return a new HMSTime object.
 
@@ -324,6 +379,47 @@ class HMSTime:
 
         total = hh * 3600 + mm * 60 + ss
         return -total if neg else total
+
+    def format(self, fmt: str = "HH:MM:SS") -> str:
+        """Format this duration as a string.
+
+        ``HH:MM:SS`` matches :meth:`__str__`. ``HH:MM`` omits seconds.
+
+        Args:
+        ----
+            fmt (str): ``"HH:MM"`` or ``"HH:MM:SS"``.
+
+        Returns:
+        -------
+            str: Formatted duration.
+
+        Raises:
+        ------
+            ValueError: If ``fmt`` is not supported.
+
+        """
+        if fmt not in _SUPPORTED_FORMATS:
+            raise ValueError(f"Unsupported format: {fmt!r}. Use 'HH:MM' or 'HH:MM:SS'.")
+        if fmt == "HH:MM:SS":
+            return str(self)
+        hh, mm, _ = self.to_tuple()
+        sign = "-" if self.is_negative else ""
+        return f"{sign}{hh}:{mm:02}"
+
+    def to_iso8601(self) -> str:
+        """Return an ISO 8601 duration string (time component only, ``PT…``)."""
+        if self.total_seconds == 0:
+            return "PT0S"
+        sign = "-" if self.is_negative else ""
+        hh, mm, ss = self.to_tuple()
+        parts: list[str] = []
+        if hh:
+            parts.append(f"{hh}H")
+        if mm:
+            parts.append(f"{mm}M")
+        if ss or not parts:
+            parts.append(f"{ss}S")
+        return f"{sign}PT{''.join(parts)}"
 
     def to_seconds(self) -> int:
         """Return the total number of seconds represented by this HMSTime object."""

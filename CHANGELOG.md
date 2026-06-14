@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2026-06-07
+
+### Added
+
+- `HMSTime.from_iso8601()` / `to_iso8601()` for ISO 8601 time durations (`PT…`)
+- `HMSTime.format()` with `HH:MM` and `HH:MM:SS`
+- Input policy document (`docs/INPUT_POLICY.md`) — strict mode for v1.0
+
+### Changed
+
+- README: ISO 8601, format(), and input policy links
+
 ## [0.6.0] - 2026-06-07
 
 ### Added
@@ -98,6 +110,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Negative duration support
 - Custom exceptions: `InvalidTimeFormatError`, `NotTimeStringError`
 
+[0.7.0]: https://github.com/masanori0209/hmscalc/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/masanori0209/hmscalc/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/masanori0209/hmscalc/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/masanori0209/hmscalc/compare/v0.3.1...v0.4.0
