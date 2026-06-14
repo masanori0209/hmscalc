@@ -12,6 +12,8 @@ dist/
 *.egg-info/
 .cache/
 .pytest_cache/
+.coverage
+htmlcov/
 .mypy_cache/
 .vscode/
 .idea/
