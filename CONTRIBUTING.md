@@ -1,54 +1,68 @@
 # Contributing to hmscalc
 
-Thank you for your interest in contributing to `hmscalc`!
-This document outlines the branching strategy and rules used in this repository.
+Thank you for contributing to `hmscalc`!
 
----
+## Branching
 
-## 🚀 Branching Strategy
+| Branch | Purpose |
+|--------|---------|
+| `main` | Stable releases (PyPI tags) |
+| `release/vX.Y.Z` | Release preparation |
+| `feat/*` / `fix/*` | Features and bug fixes |
 
-| Branch        | Purpose                            |
-|---------------|-------------------------------------|
-| `main`        | Stable branch for releases (PyPI)   |
-| `develop`     | Active development integration      |
-| `feature/*`   | New features (e.g. `feature/to-hours`) |
-| `fix/*`       | Bug fixes (e.g. `fix/negative-format`) |
-| `release/*`   | Release preparation (e.g. `release/v0.2.0`) |
-| `hotfix/*`    | Emergency fixes for production      |
+Typical flow: branch from `main` → PR → CI pass → merge → tag `vX.Y.Z` on `main` → PyPI publish.
 
----
+## Local development
 
-## 🔁 Typical Workflow
+### Poetry (recommended)
 
-1. Start a feature branch from `develop`
-2. Merge features into `develop` via pull requests
-3. Create a `release/*` branch from `develop` when preparing for a new release
-4. Merge `release/*` into both `main` and `develop`
-5. Tag the release on `main` (e.g., `v0.2.0`) to trigger PyPI deployment
+```bash
+poetry install
+poetry run pytest
+poetry run pytest --cov=hmscalc --cov-report=term-missing
+poetry run ruff check hmscalc tests
+poetry run black --check hmscalc tests
+poetry run isort --check-only hmscalc tests
+poetry run mypy hmscalc tests
+```
 
----
+### Docker (multi-Python matrix)
 
-## ✅ Protected Branch: `main`
+```bash
+docker build -t hmscalc .
+docker run --rm hmscalc ./runtests.sh
+docker run --rm hmscalc ./lint.sh
+```
 
-The `main` branch is protected with the following rules:
+## Pull requests
 
-- ✅ **Pull requests required** — No direct push to `main`
-- ✅ **Passing status checks required** — CI must pass (`pytest`, `mypy`, etc.)
-- ✅ **Linear history only** — Merge commits are disallowed
-- ✅ **Admins included** — Rules apply even to repository admins
+- Target `main` unless coordinating a release branch
+- Ensure CI passes (test matrix 3.9–3.14, lint, mypy)
+- Update `CHANGELOG.md` for user-visible changes
+- Add tests for new behavior
 
-To contribute:
-- Always branch off `develop`
-- Never commit directly to `main`
-- Use descriptive branch names and PR titles
+## Releases
 
----
+1. Bump version in `pyproject.toml` and `CHANGELOG.md`
+2. Merge release PR to `main`
+3. Tag: `git tag -a vX.Y.Z -m "Release vX.Y.Z" && git push origin vX.Y.Z`
+4. GitHub Actions publishes to PyPI on tag push
 
-## 🧪 CI & PyPI Release
+## Public API
 
-- All pull requests must pass tests via GitHub Actions
-- Pushing a tag like `v0.2.0` to `main` will automatically publish to PyPI
+Only symbols listed in `hmscalc.__all__` are public. Names prefixed with `_` are internal.
 
----
+```python
+from hmscalc import (
+    HMSTime,
+    HMSTimeError,
+    InvalidTimeFormatError,
+    NotTimeStringError,
+)
+```
 
-Thank you for contributing!
+## Code style
+
+- Line length: 120 (black, ruff)
+- Strict mypy on library and tests
+- Docstrings: Google style (existing convention)

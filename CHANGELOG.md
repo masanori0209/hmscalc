@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2026-06-07
+
+### Added
+
+- README API reference (class methods, operators, exceptions, negative values, hashable)
+- Package module docstring documenting public API
+
+### Changed
+
+- CONTRIBUTING.md updated for current Poetry/CI/release workflow
+- README links to CONTRIBUTING and v1.0.0 roadmap
+
 ## [0.4.0] - 2026-06-07
 
 ### Added
@@ -73,6 +85,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Negative duration support
 - Custom exceptions: `InvalidTimeFormatError`, `NotTimeStringError`
 
+[0.5.0]: https://github.com/masanori0209/hmscalc/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/masanori0209/hmscalc/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/masanori0209/hmscalc/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/masanori0209/hmscalc/compare/v0.2.0...v0.3.0

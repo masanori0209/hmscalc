@@ -116,6 +116,69 @@ HMSTime("1:99:00")     # InvalidTimeFormatError
 HMSTime(123)             # NotTimeStringError
 ```
 
+### Negative Values
+
+```python
+t = HMSTime("-1:00:00")
+print(str(t))           # "-1:00:00"
+print(t.is_negative)    # True
+print(t.to_seconds())   # -3600
+print(t.to_dict())      # {'hh': 1, 'mm': 0, 'ss': 0, 'negative': True}
+```
+
+`to_tuple()` returns absolute `(hh, mm, ss)`; use `is_negative` or `to_seconds()` for sign.
+
+### Hashable (sets and dict keys)
+
+```python
+a = HMSTime("1:00:00")
+b = HMSTime("2:00:00")
+sessions = {a, b, a}  # 2 unique items
+```
+
+## API Reference
+
+### `HMSTime(time_str: str)`
+
+Parse `HH:MM` or `HH:MM:SS`. Whitespace is trimmed. Hours may exceed 24 (duration model).
+
+### Class methods
+
+| Method | Description |
+|--------|-------------|
+| `HMSTime.from_seconds(total_seconds: int)` | Build from integer seconds |
+| `HMSTime.from_timedelta(delta)` | Build from `datetime.timedelta` |
+| `HMSTime.sum(times)` | Sum iterable; empty → `"0:00:00"` |
+| `HMSTime.average(times)` | Mean, rounded to nearest second |
+| `HMSTime.min(times)` / `HMSTime.max(times)` | Min / max of iterable |
+
+### Instance methods & properties
+
+| Member | Description |
+|--------|-------------|
+| `is_negative` | `True` if total seconds < 0 |
+| `to_seconds()` | Integer total seconds (signed) |
+| `to_minutes()` / `to_hours()` | Float conversion |
+| `to_timedelta()` | `datetime.timedelta` |
+| `to_tuple()` | `(hh, mm, ss)` absolute components |
+| `to_dict()` | `{'hh', 'mm', 'ss', 'negative'}` |
+
+### Operators
+
+`+`, `-`, `*`, `/` (scalar), `==`, `!=`, `<`, `<=`, `>`, `>=`
+
+### Exceptions
+
+```python
+from hmscalc import HMSTimeError, InvalidTimeFormatError, NotTimeStringError
+```
+
+| Exception | When |
+|-------------|------|
+| `InvalidTimeFormatError` | Bad format, mm/ss ≥ 60, empty string |
+| `NotTimeStringError` | Non-string input |
+| `HMSTimeError` | Base class for both |
+
 ## Input Rules
 
 - Formats: `HH:MM` or `HH:MM:SS`
@@ -125,23 +188,21 @@ HMSTime(123)             # NotTimeStringError
 
 ## Development
 
-Requires Docker (optional) or Poetry locally.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for branching, CI, and release process.
 
 ```bash
-# Local (Poetry)
 poetry install
-poetry run pytest
-
-# Docker matrix (Python 3.9–3.14)
-docker build -t hmscalc .
-docker run --rm hmscalc ./runtests.sh
-docker run --rm hmscalc ./lint.sh
+poetry run pytest --cov=hmscalc
 ```
+
+Docker matrix (Python 3.9–3.14): `docker build -t hmscalc . && docker run --rm hmscalc ./runtests.sh`
 
 ## Links
 
 - [PyPI](https://pypi.org/project/hmscalc/)
 - [Changelog](CHANGELOG.md)
+- [Contributing](CONTRIBUTING.md)
+- [Roadmap (v1.0.0)](https://github.com/masanori0209/hmscalc/issues/20)
 - [Zenn: PyPI 公開の記事](https://zenn.dev/m2lab/articles/454a3a0dd27dc8)
 
 ## License
