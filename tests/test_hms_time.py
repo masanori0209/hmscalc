@@ -135,7 +135,7 @@ def test_from_seconds_type_error() -> None:
     with pytest.raises(TypeError, match="must be an int"):
         HMSTime.from_seconds("3600")  # type: ignore[arg-type]
     with pytest.raises(TypeError, match="must be an int"):
-        HMSTime.from_seconds(True)  # type: ignore[arg-type]
+        HMSTime.from_seconds(True)
 
 
 def test_from_timedelta() -> None:
