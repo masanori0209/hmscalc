@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [1.0.0] - 2026-06-07
+
+### Added
+
+- **Stable release** — public API SemVer guarantees ([API_STABILITY.md](docs/API_STABILITY.md))
+- Zenn v1.0.0 announcement draft
+
+### Changed
+
+- PyPI classifier: `Development Status :: 5 - Production/Stable`
+- README: stable badge and v1.0.0 notice
+
+No breaking changes from v0.9.0.
+
 ## [0.9.0] - 2026-06-07
 
 ### Added
@@ -135,6 +151,7 @@ This is the **release candidate** for v1.0.0. No breaking changes are planned be
 - Negative duration support
 - Custom exceptions: `InvalidTimeFormatError`, `NotTimeStringError`
 
+[1.0.0]: https://github.com/masanori0209/hmscalc/compare/v0.9.0...v1.0.0
 [0.9.0]: https://github.com/masanori0209/hmscalc/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/masanori0209/hmscalc/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/masanori0209/hmscalc/compare/v0.6.0...v0.7.0

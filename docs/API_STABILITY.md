@@ -48,8 +48,8 @@ Names prefixed with `_` are **not** public.
 - [x] Test coverage ≥95%
 - [x] Python 3.9–3.14 CI matrix
 - [x] SECURITY.md and contribution guides
-- [ ] RC feedback period (v0.9.0)
-- [ ] Stable classifier on PyPI
+- [x] RC feedback period (v0.9.0)
+- [x] Stable classifier on PyPI
 
 ## Non-goals for v1.0
 

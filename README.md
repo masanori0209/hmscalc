@@ -1,11 +1,14 @@
 # hmscalc
 
 [![PyPI version](https://img.shields.io/pypi/v/hmscalc.svg)](https://pypi.org/project/hmscalc/)
+[![Stable](https://img.shields.io/badge/status-stable-green.svg)](docs/API_STABILITY.md)
 [![Python versions](https://img.shields.io/pypi/pyversions/hmscalc.svg)](https://pypi.org/project/hmscalc/)
 [![CI](https://github.com/masanori0209/hmscalc/actions/workflows/test.yml/badge.svg)](https://github.com/masanori0209/hmscalc/actions/workflows/test.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Add and subtract **HH:MM** / **HH:MM:SS** time strings in Python — no manual conversion to seconds required.
+
+**v1.0.0** is the first stable release with [SemVer API guarantees](docs/API_STABILITY.md).
 
 ## Quick Start
 
@@ -256,6 +259,7 @@ Docker matrix (Python 3.9–3.14): `docker build -t hmscalc . && docker run --rm
 - [API stability policy](docs/API_STABILITY.md)
 - [Migration guide](docs/MIGRATION.md)
 - [Roadmap (v1.0.0)](https://github.com/masanori0209/hmscalc/issues/20)
+- [Zenn: v1.0.0 Stable リリース（下書き）](docs/articles/v1-stable-release.md)
 - [Zenn: 作業時間を HH:MM で足し算する（チュートリアル）](docs/articles/work-time-tutorial.md) — 公開用下書き
 - [Zenn: PyPI 公開の記事](https://zenn.dev/m2lab/articles/454a3a0dd27dc8)
 
