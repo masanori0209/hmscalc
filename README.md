@@ -252,6 +252,7 @@ Docker matrix (Python 3.9–3.14): `docker build -t hmscalc . && docker run --rm
 - [PyPI](https://pypi.org/project/hmscalc/)
 - [Changelog](CHANGELOG.md)
 - [Contributing](CONTRIBUTING.md)
+- [Security policy](SECURITY.md)
 - [Roadmap (v1.0.0)](https://github.com/masanori0209/hmscalc/issues/20)
 - [Zenn: 作業時間を HH:MM で足し算する（チュートリアル）](docs/articles/work-time-tutorial.md) — 公開用下書き
 - [Zenn: PyPI 公開の記事](https://zenn.dev/m2lab/articles/454a3a0dd27dc8)

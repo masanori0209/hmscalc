@@ -296,6 +296,12 @@ def test_hashable() -> None:
     assert d[a] == "one"
 
 
+def test_iso8601_not_string() -> None:
+    """Test from_iso8601 rejects non-string input."""
+    with pytest.raises(NotTimeStringError):
+        HMSTime.from_iso8601(123)  # type: ignore[arg-type]
+
+
 def test_from_iso8601() -> None:
     """Test parsing ISO 8601 time durations."""
     assert str(HMSTime.from_iso8601("PT1H30M15S")) == "1:30:15"
