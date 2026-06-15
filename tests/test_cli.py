@@ -5,6 +5,10 @@ from __future__ import annotations
 import subprocess
 import sys
 
+import pytest
+
+from hmscalc.cli import main
+
 
 def _run_cli(*args: str) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
@@ -48,3 +52,21 @@ def test_cli_sub_requires_two_values() -> None:
     result = _run_cli("sub", "1:00")
     assert result.returncode == 1
     assert "at least two" in result.stderr
+
+
+def test_cli_main_direct_add(capsys: pytest.CaptureFixture[str]) -> None:
+    """Test in-process CLI add for coverage under pytest-cov 7."""
+    assert main(["add", "1:00", "2:00"]) == 0
+    assert capsys.readouterr().out.strip() == "3:00:00"
+
+
+def test_cli_main_direct_sub(capsys: pytest.CaptureFixture[str]) -> None:
+    """Test in-process CLI sub for coverage under pytest-cov 7."""
+    assert main(["sub", "2:00", "0:30"]) == 0
+    assert capsys.readouterr().out.strip() == "1:30:00"
+
+
+def test_cli_main_direct_invalid(capsys: pytest.CaptureFixture[str]) -> None:
+    """Test in-process CLI error handling."""
+    assert main(["add", "invalid"]) == 1
+    assert "error:" in capsys.readouterr().err

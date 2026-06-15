@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "hmscalc"
-version = "1.0.5"
+version = "1.0.6"
 description = "Add and subtract HH:MM[:SS] time strings in Python — durations, aggregation, and timedelta integration."
 authors = ["M0209 <masanorimurakoshi0209@gmail.com>"]
 license = "MIT"
@@ -36,7 +36,7 @@ hmscalc = "hmscalc.cli:main"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.0"
-pytest-cov = "^6.0.0"
+pytest-cov = "^7.1.0"
 black = ">=24,<26"
 isort = "^6.1.0"
 mypy = "^1.9.0"
