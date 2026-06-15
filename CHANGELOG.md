@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.4] - 2026-06-07
+
+### Changed
+
+- CI: actions/checkout 4.2.2 → 6.0.3
+
 ## [1.0.3] - 2026-06-07
 
 ### Changed
@@ -165,6 +171,7 @@ This is the **release candidate** for v1.0.0. No breaking changes are planned be
 - Negative duration support
 - Custom exceptions: `InvalidTimeFormatError`, `NotTimeStringError`
 
+[1.0.4]: https://github.com/masanori0209/hmscalc/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/masanori0209/hmscalc/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/masanori0209/hmscalc/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/masanori0209/hmscalc/compare/v1.0.0...v1.0.1
