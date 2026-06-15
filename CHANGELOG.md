@@ -5,9 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [1.0.1] - 2026-06-07
 
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+### Changed
+
+- Dev dependency: ruff 0.15.16 → 0.15.17
 
 ## [1.0.0] - 2026-06-07
 
@@ -151,6 +153,7 @@ This is the **release candidate** for v1.0.0. No breaking changes are planned be
 - Negative duration support
 - Custom exceptions: `InvalidTimeFormatError`, `NotTimeStringError`
 
+[1.0.1]: https://github.com/masanori0209/hmscalc/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/masanori0209/hmscalc/compare/v0.9.0...v1.0.0
 [0.9.0]: https://github.com/masanori0209/hmscalc/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/masanori0209/hmscalc/compare/v0.7.0...v0.8.0
