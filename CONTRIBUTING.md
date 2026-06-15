@@ -19,7 +19,7 @@ Typical flow: branch from `main` → PR → CI pass → merge → tag `vX.Y.Z` o
 ```bash
 poetry install
 poetry run pytest
-poetry run pytest --cov=hmscalc --cov-report=term-missing
+poetry run pytest --cov=hmscalc --cov-report=term-missing --cov-fail-under=95
 poetry run ruff check hmscalc tests
 poetry run black --check hmscalc tests
 poetry run isort --check-only hmscalc tests

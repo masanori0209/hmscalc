@@ -8,12 +8,13 @@
 
 Add and subtract **HH:MM** / **HH:MM:SS** time strings in Python — no manual conversion to seconds required.
 
-**v1.0.0** is the first stable release with [SemVer API guarantees](docs/API_STABILITY.md).
+**Stable since v1.0.0** (latest: **v1.0.6**) — [SemVer API guarantees](docs/API_STABILITY.md) · [Changelog](CHANGELOG.md)
 
 ## Quick Start
 
 ```bash
 pip install hmscalc
+# or pin stable: pip install "hmscalc>=1.0,<2"
 ```
 
 ```python
@@ -46,6 +47,7 @@ print(a / 2)   # "0:45:07"
 - Input whitespace trimming (`" 1:30:15 "`)
 - Type hints with `py.typed` marker
 - Python **3.9** through **3.14**
+- ISO 8601 duration (`from_iso8601` / `to_iso8601`) and custom `format()`
 - CLI: `hmscalc add` / `sub` / `sum` from the terminal
 
 ## CLI
@@ -245,7 +247,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for branching, CI, and release process.
 
 ```bash
 poetry install
-poetry run pytest --cov=hmscalc
+poetry run pytest --cov=hmscalc --cov-fail-under=95
 ```
 
 Docker matrix (Python 3.9–3.14): `docker build -t hmscalc . && docker run --rm hmscalc ./runtests.sh`
@@ -258,7 +260,6 @@ Docker matrix (Python 3.9–3.14): `docker build -t hmscalc . && docker run --rm
 - [Security policy](SECURITY.md)
 - [API stability policy](docs/API_STABILITY.md)
 - [Migration guide](docs/MIGRATION.md)
-- [Roadmap (v1.0.0)](https://github.com/masanori0209/hmscalc/issues/20)
 - [Zenn: v1.0.0 Stable リリース（下書き）](docs/articles/v1-stable-release.md)
 - [Zenn: 作業時間を HH:MM で足し算する（チュートリアル）](docs/articles/work-time-tutorial.md) — 公開用下書き
 - [Zenn: PyPI 公開の記事](https://zenn.dev/m2lab/articles/454a3a0dd27dc8)
