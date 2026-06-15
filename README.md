@@ -8,7 +8,7 @@
 
 Add and subtract **HH:MM** / **HH:MM:SS** time strings in Python — no manual conversion to seconds required.
 
-**Stable since v1.0.0** (latest: **v1.0.6**) — [SemVer API guarantees](docs/API_STABILITY.md) · [Changelog](CHANGELOG.md)
+**Stable since v1.0.0** (latest: **v1.0.7**) — [SemVer API guarantees](docs/API_STABILITY.md) · [Changelog](CHANGELOG.md)
 
 ## Quick Start
 

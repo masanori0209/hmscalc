@@ -2,7 +2,7 @@
 
 ## Upgrading to v1.0.x from 0.x
 
-v1.0.0 is the first **stable** release (current: **1.0.6**). Patch releases 1.0.1–1.0.6 are dev/CI dependency updates only — no public API changes.
+v1.0.0 is the first **stable** release (current: **1.0.7**). Patch releases 1.0.1–1.0.7 are dev/CI or docs updates only — no public API changes.
 
 ### Import path
 
