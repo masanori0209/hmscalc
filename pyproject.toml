@@ -36,7 +36,7 @@ hmscalc = "hmscalc.cli:main"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.0"
-pytest-cov = "^6.0.0"
+pytest-cov = ">=6,<8"
 black = ">=24,<26"
 isort = "^6.1.0"
 mypy = "^1.9.0"
