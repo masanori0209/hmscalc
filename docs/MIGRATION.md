@@ -1,8 +1,8 @@
 # Migration Guide
 
-## Upgrading to v1.0.0 from 0.x
+## Upgrading to v1.0.x from 0.x
 
-v1.0.0 is the first **stable** release. There are **no intentional breaking changes** from v0.9.0.
+v1.0.0 is the first **stable** release (current: **1.0.6**). Patch releases 1.0.1–1.0.6 are dev/CI dependency updates only — no public API changes.
 
 ### Import path
 
