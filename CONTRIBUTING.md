@@ -26,6 +26,25 @@ poetry run isort --check-only hmscalc tests
 poetry run mypy hmscalc tests
 ```
 
+### Documentation site (MkDocs)
+
+```bash
+poetry run mkdocs serve    # local preview at http://127.0.0.1:8000
+poetry run mkdocs build    # output in site/
+```
+
+**GitHub Pages:** pushes to `main` and version tags deploy via `.github/workflows/docs.yml`.  
+Enable **Settings → Pages → Build and deployment → GitHub Actions** on the repository.
+
+**Read the Docs:** import the project at [readthedocs.org](https://readthedocs.org/) and point to `.readthedocs.yaml`.
+
+### Optional pandas extra
+
+```bash
+poetry install -E pandas
+poetry run pytest tests/test_pandas_extra.py
+```
+
 ### Docker (multi-Python matrix)
 
 ```bash

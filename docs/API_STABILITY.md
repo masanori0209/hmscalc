@@ -51,6 +51,44 @@ Names prefixed with `_` are **not** public.
 - [x] RC feedback period (v0.9.0)
 - [x] Stable classifier on PyPI
 
+## v1.4.0 additions (Minor)
+
+- ISO 8601 date components: `P1D`, `P1W`, `P1DT2H`, nominal `P1M` / `P1Y`
+- Documentation deployed via GitHub Pages and Read the Docs config
+
+## v1.3.0 additions (Minor)
+
+Backward-compatible features added in v1.3.0:
+
+- `HMSTime(..., strict=False)` / `HMSTime.parse` — lenient overflow normalization
+- `HMSDateTime` combined date + duration type
+- `hmscalc.buckets` — weekly/monthly aggregation
+- Optional `hmscalc[pandas]` extra and `hmscalc.pandas_extra`
+- MkDocs documentation site
+
+See [CHANGELOG.md](CHANGELOG.md) and [ROADMAP.md](ROADMAP.md).
+
+## v1.2.0 additions (Minor)
+
+Backward-compatible features added in v1.2.0:
+
+- `hmscalc.business_days` module (weekday rules, holidays, add/count business days)
+- `hmscalc.tz` module (zoneinfo-based parse, localize, daily windows)
+- `scheduling.find_availability_across_business_days`, `find_availability_across_days(tz=...)`
+
+See [CHANGELOG.md](CHANGELOG.md) and [ROADMAP.md](ROADMAP.md).
+
+## v1.1.0 additions (Minor)
+
+Backward-compatible features added in v1.1.0:
+
+- `HMSTime.parse_many`, `sum_strings`, `± timedelta`, `hh`/`mm`/`ss`, `__abs__`, `format("HH:MM:SS:PADDED")`
+- `hmscalc.dates` module and `InvalidDateFormatError`
+- `hmscalc.scheduling` module (buffered availability search)
+- CLI: `avg`, `min`, `max`, `--format`, stdin
+
+See [CHANGELOG.md](CHANGELOG.md) and [ROADMAP.md](ROADMAP.md).
+
 ## Non-goals for v1.0
 
 - Lenient overflow normalization (`1:90:00` → `2:30:00`)

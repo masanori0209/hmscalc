@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "hmscalc"
-version = "1.0.7"
+version = "1.4.0"
 description = "Add and subtract HH:MM[:SS] time strings in Python — durations, aggregation, and timedelta integration."
 authors = ["M0209 <masanorimurakoshi0209@gmail.com>"]
 license = "MIT"
@@ -24,12 +24,16 @@ classifiers = [
 [tool.poetry.urls]
 Homepage = "https://github.com/masanori0209/hmscalc"
 Repository = "https://github.com/masanori0209/hmscalc"
-Documentation = "https://github.com/masanori0209/hmscalc#readme"
+Documentation = "https://masanori0209.github.io/hmscalc/"
 Changelog = "https://github.com/masanori0209/hmscalc/blob/main/CHANGELOG.md"
 "Issue Tracker" = "https://github.com/masanori0209/hmscalc/issues"
 
 [tool.poetry.dependencies]
 python = "^3.9"
+pandas = { version = "^2.0.0", optional = true }
+
+[tool.poetry.extras]
+pandas = ["pandas"]
 
 [tool.poetry.scripts]
 hmscalc = "hmscalc.cli:main"
@@ -42,6 +46,9 @@ isort = "^6.1.0"
 mypy = "^1.9.0"
 ruff = "^0.15.0"
 hypothesis = { version = "^6.100.0", python = ">=3.10" }
+pandas = "^2.0.0"
+mkdocs = "^1.6.0"
+mkdocs-material = "^9.5.0"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

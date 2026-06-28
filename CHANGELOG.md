@@ -5,6 +5,62 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-06-28
+
+### Added
+
+- ISO 8601 date components in `from_iso8601` / `to_iso8601`: `P1D`, `P1W`, `P1DT2H`, nominal `P1M` / `P1Y`
+- GitHub Pages docs deploy workflow (`.github/workflows/docs.yml`)
+- Read the Docs config (`.readthedocs.yaml`, `docs/requirements.txt`)
+
+### Changed
+
+- `to_iso8601()` emits `P1D` / `P1W` for whole-day/week durations instead of `PT24H` / `PT168H`
+- PyPI `Documentation` URL points to GitHub Pages
+
+## [1.3.0] - 2026-06-28
+
+### Added
+
+- Lenient parsing: `HMSTime(..., strict=False)`, `HMSTime.parse`, `parse_many`, `sum_strings` with `strict=False`
+- `HMSDateTime` — combined calendar date and `HMSTime` with datetime arithmetic
+- `hmscalc.buckets` — `aggregate_by_week`, `aggregate_by_month`, `BucketTotal`
+- Optional pandas extra: `pip install hmscalc[pandas]` and `hmscalc.pandas_extra`
+- MkDocs documentation site (`mkdocs.yml`, `docs/getting-started.md`, `docs/recipes/`)
+
+## [1.2.0] - 2026-06-28
+
+### Added
+
+- `hmscalc.business_days` module: `BusinessCalendar`, `is_business_day`, `iter_business_days`, `business_day_range`, `count_business_days`, `add_business_days`, `next_business_day`, `previous_business_day`
+- `hmscalc.tz` module: `parse_datetime`, `localize`, `to_timezone`, `local_to_utc`, `daily_window`, `time_on_date` (stdlib `zoneinfo`)
+- `scheduling.find_availability_across_business_days` — skip weekends and holidays
+- `scheduling.find_availability_across_days` — optional `tz` parameter for timezone-aware daily windows
+- Adversarial and property tests for Phase 3 (business days, timezones, scheduling integration)
+
+## [1.1.0] - 2026-06-28
+
+### Added
+
+- `HMSTime.parse_many()` / `HMSTime.sum_strings()` for string iterables
+- `HMSTime` ± `datetime.timedelta` mixed arithmetic
+- `hh` / `mm` / `ss` properties and `__abs__()`
+- `format("HH:MM:SS:PADDED")` for zero-padded hours
+- `hmscalc.dates` module: `parse_date`, `parse_datetime`, `monthrange`, `days_in_month`, `last_day_of_month`, `date_range`, `missing_dates`, `has_date_gaps`, `gap_ranges`, `combine`, `missing_datetimes`
+- `hmscalc.scheduling` module: buffered availability search for meeting scheduling
+- `InvalidDateFormatError` exception
+- CLI: `avg`, `min`, `max`, `--format`, stdin input
+- [ROADMAP.md](ROADMAP.md)
+
+### Changed
+
+- `NotTimeStringError` hints at `from_seconds()` when an `int` is passed
+- README links to published Zenn tutorial
+
+### Fixed
+
+- `dates.gap_ranges`: empty `present` with explicit `start`/`end` now returns the full range as one gap
+
 ## [1.0.7] - 2026-06-15
 
 ### Changed
@@ -53,7 +109,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - **Stable release** — public API SemVer guarantees ([API_STABILITY.md](docs/API_STABILITY.md))
-- Zenn v1.0.0 announcement draft
 
 ### Changed
 
@@ -190,6 +245,7 @@ This is the **release candidate** for v1.0.0. No breaking changes are planned be
 - Negative duration support
 - Custom exceptions: `InvalidTimeFormatError`, `NotTimeStringError`
 
+[1.1.0]: https://github.com/masanori0209/hmscalc/compare/v1.0.7...v1.1.0
 [1.0.7]: https://github.com/masanori0209/hmscalc/compare/v1.0.6...v1.0.7
 [1.0.6]: https://github.com/masanori0209/hmscalc/compare/v1.0.5...v1.0.6
 [1.0.5]: https://github.com/masanori0209/hmscalc/compare/v1.0.4...v1.0.5

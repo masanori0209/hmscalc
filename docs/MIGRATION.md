@@ -1,5 +1,21 @@
 # Migration Guide
 
+## Upgrading to v1.1.x from 1.0.x
+
+v1.1.0 adds backward-compatible APIs only. Pin `hmscalc>=1.1,<2` to opt in.
+
+### New in v1.1.0
+
+| Area | API |
+|------|-----|
+| String iterables | `HMSTime.parse_many()`, `HMSTime.sum_strings()` |
+| timedelta | `HMSTime ± datetime.timedelta` |
+| Properties | `hh`, `mm`, `ss`, `abs()` |
+| Format | `format("HH:MM:SS:PADDED")` |
+| Dates | `from hmscalc import dates` — see README |
+| CLI | `avg`, `min`, `max`, `--format`, stdin |
+| Exceptions | `InvalidDateFormatError` |
+
 ## Upgrading to v1.0.x from 0.x
 
 v1.0.0 is the first **stable** release (current: **1.0.7**). Patch releases 1.0.1–1.0.7 are dev/CI or docs updates only — no public API changes.

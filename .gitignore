@@ -15,6 +15,7 @@ dist/
 .coverage
 htmlcov/
 .mypy_cache/
+site/
 .vscode/
 .idea/
 .DS_Store

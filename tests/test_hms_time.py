@@ -321,9 +321,9 @@ def test_to_iso8601_roundtrip() -> None:
 def test_iso8601_invalid() -> None:
     """Test invalid ISO 8601 durations raise errors."""
     with pytest.raises(InvalidTimeFormatError):
-        HMSTime.from_iso8601("P1D")
-    with pytest.raises(InvalidTimeFormatError):
         HMSTime.from_iso8601("PT")
+    with pytest.raises(InvalidTimeFormatError):
+        HMSTime.from_iso8601("P")
 
 
 def test_format() -> None:
@@ -339,3 +339,49 @@ def test_format_invalid() -> None:
     """Test unsupported format raises ValueError."""
     with pytest.raises(ValueError, match="Unsupported format"):
         HMSTime("1:00:00").format("signed")
+
+
+def test_format_padded() -> None:
+    """Test zero-padded hour format."""
+    assert HMSTime("2:30:15").format("HH:MM:SS:PADDED") == "02:30:15"
+    assert HMSTime("12:05:03").format("HH:MM:SS:PADDED") == "12:05:03"
+
+
+def test_hh_mm_ss_properties() -> None:
+    """Test hour/minute/second properties."""
+    t = HMSTime("1:02:03")
+    assert t.hh == 1
+    assert t.mm == 2
+    assert t.ss == 3
+    assert HMSTime("-1:00:00").hh == 1
+
+
+def test_abs() -> None:
+    """Test absolute value of durations."""
+    assert str(abs(HMSTime("-1:30:00"))) == "1:30:00"
+    assert str(abs(HMSTime("1:30:00"))) == "1:30:00"
+
+
+def test_timedelta_arithmetic() -> None:
+    """Test HMSTime arithmetic with timedelta."""
+    import datetime
+
+    t = HMSTime("1:00:00")
+    delta = datetime.timedelta(minutes=30)
+    assert str(t + delta) == "1:30:00"
+    assert str(delta + t) == "1:30:00"
+    assert str(t - delta) == "0:30:00"
+
+
+def test_parse_many_and_sum_strings() -> None:
+    """Test parsing and summing string iterables."""
+    strings = ["1:30", "2:15", "0:45"]
+    parsed = HMSTime.parse_many(strings)
+    assert len(parsed) == 3
+    assert str(HMSTime.sum_strings(strings)) == "4:30:00"
+
+
+def test_not_time_string_int_hint() -> None:
+    """Test NotTimeStringError hints at from_seconds for ints."""
+    with pytest.raises(NotTimeStringError, match="from_seconds"):
+        HMSTime(3600)  # type: ignore[arg-type]

@@ -1,0 +1,49 @@
+site_name: hmscalc
+site_description: HH:MM duration arithmetic, scheduling, and aggregation for Python
+site_url: https://masanori0209.github.io/hmscalc/
+repo_url: https://github.com/masanori0209/hmscalc
+repo_name: masanori0209/hmscalc
+
+theme:
+  name: material
+  language: ja
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Recipes:
+      - Work Time: recipes/work-time.md
+      - Scheduling: recipes/scheduling.md
+      - Buckets: recipes/buckets.md
+      - ISO 8601: recipes/iso8601.md
+  - Reference:
+      - API Stability: API_STABILITY.md
+      - Input Policy: INPUT_POLICY.md
+      - Migration: MIGRATION.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - toc:
+      permalink: true
+
+plugins:
+  - search

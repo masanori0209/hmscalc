@@ -70,3 +70,38 @@ def test_cli_main_direct_invalid(capsys: pytest.CaptureFixture[str]) -> None:
     """Test in-process CLI error handling."""
     assert main(["add", "invalid"]) == 1
     assert "error:" in capsys.readouterr().err
+
+
+def test_cli_avg() -> None:
+    """Test CLI avg command."""
+    result = _run_cli("avg", "1:00:00", "3:00:00")
+    assert result.returncode == 0
+    assert result.stdout.strip() == "2:00:00"
+
+
+def test_cli_min_max() -> None:
+    """Test CLI min and max commands."""
+    min_result = _run_cli("min", "1:00:00", "3:00:00", "0:30:00")
+    max_result = _run_cli("max", "1:00:00", "3:00:00", "0:30:00")
+    assert min_result.stdout.strip() == "0:30:00"
+    assert max_result.stdout.strip() == "3:00:00"
+
+
+def test_cli_format_flag() -> None:
+    """Test CLI --format output option."""
+    result = _run_cli("--format", "HH:MM", "add", "1:30:00", "2:00:00")
+    assert result.returncode == 0
+    assert result.stdout.strip() == "3:30"
+
+
+def test_cli_stdin_sum() -> None:
+    """Test CLI reads durations from stdin."""
+    result = subprocess.run(
+        [sys.executable, "-m", "hmscalc", "sum"],
+        input="1:00\n2:00\n3:00\n",
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 0
+    assert result.stdout.strip() == "6:00:00"
