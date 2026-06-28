@@ -48,3 +48,10 @@ def test_lenient_duration_strings() -> None:
     records = [(date(2026, 6, 2), "1:90")]
     totals = buckets.aggregate_by_week(records, strict=False)
     assert totals[0].total == HMSTime("2:30:00")
+
+
+def test_hms_time_duration_objects() -> None:
+    """Test tuple records with HMSTime objects."""
+    records = [(date(2026, 6, 2), HMSTime("1:30"))]
+    totals = buckets.aggregate_by_month(records)
+    assert totals[0].total == HMSTime("1:30:00")

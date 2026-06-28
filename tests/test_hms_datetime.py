@@ -62,6 +62,24 @@ def test_to_iso() -> None:
     assert value.to_iso() == "2026-06-28T02:30:15"
 
 
+def test_combine_with_hms_time() -> None:
+    """Test combine accepts an HMSTime duration object."""
+    value = HMSDateTime.combine(date(2026, 6, 28), HMSTime("1:00"))
+    assert value.time == HMSTime("1:00")
+
+
+def test_add_wrong_type_returns_not_implemented() -> None:
+    """Test unsupported add operand returns NotImplemented."""
+    value = HMSDateTime.from_strings("2026-06-28", "1:00")
+    assert value.__add__(1) is NotImplemented  # type: ignore[arg-type]
+
+
+def test_sub_wrong_type_returns_not_implemented() -> None:
+    """Test unsupported sub operand returns NotImplemented."""
+    value = HMSDateTime.from_strings("2026-06-28", "1:00")
+    assert value.__sub__(1) is NotImplemented  # type: ignore[arg-type]
+
+
 def test_combine_with_lenient() -> None:
     """Test combine respects strict flag."""
     value = HMSDateTime.combine(date(2026, 6, 28), "1:90", strict=False)

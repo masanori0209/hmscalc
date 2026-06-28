@@ -33,8 +33,8 @@ poetry run mkdocs serve    # local preview at http://127.0.0.1:8000
 poetry run mkdocs build    # output in site/
 ```
 
-**GitHub Pages:** pushes to `main` and version tags deploy via `.github/workflows/docs.yml`.  
-Enable **Settings → Pages → Build and deployment → GitHub Actions** on the repository.
+**GitHub Pages:** enabled with `build_type: workflow`. Pushes to `main` and version tags deploy via `.github/workflows/docs.yml`.  
+Site: https://masanori0209.github.io/hmscalc/
 
 **Read the Docs:** import the project at [readthedocs.org](https://readthedocs.org/) and point to `.readthedocs.yaml`.
 

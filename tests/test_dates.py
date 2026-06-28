@@ -35,6 +35,8 @@ def test_parse_date_invalid() -> None:
         parse_date("2026-13-01")
     with pytest.raises(InvalidDateFormatError):
         parse_date("bad")
+    with pytest.raises(InvalidDateFormatError):
+        parse_date(123)  # type: ignore[arg-type]
 
 
 def test_parse_datetime() -> None:

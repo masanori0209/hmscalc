@@ -2,6 +2,9 @@ name: Lint & Type Check
 
 on:
   pull_request:
+  push:
+    branches: [main]
+    tags: ["v*.*.*"]
 
 jobs:
   lint:

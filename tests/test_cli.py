@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import io
 import subprocess
 import sys
 
@@ -105,3 +106,42 @@ def test_cli_stdin_sum() -> None:
     )
     assert result.returncode == 0
     assert result.stdout.strip() == "6:00:00"
+
+
+def test_cli_main_stdin_dash(capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch) -> None:
+    """Test CLI reads stdin when times argument is '-'."""
+    stdin = io.StringIO("1:00\n2:00\n")
+    stdin.isatty = lambda: False  # type: ignore[method-assign]
+    monkeypatch.setattr("sys.stdin", stdin)
+    assert main(["add", "-"]) == 0
+    assert capsys.readouterr().out.strip() == "3:00:00"
+
+
+def test_cli_main_stdin_skips_comments(capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch) -> None:
+    """Test CLI stdin ignores blank lines and comments."""
+    stdin = io.StringIO("# header\n\n1:00\n")
+    stdin.isatty = lambda: False  # type: ignore[method-assign]
+    monkeypatch.setattr("sys.stdin", stdin)
+    assert main(["sum"]) == 0
+    assert capsys.readouterr().out.strip() == "1:00:00"
+
+
+def test_cli_main_no_times(capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch) -> None:
+    """Test CLI errors when no times are provided."""
+    stdin = io.StringIO("")
+    stdin.isatty = lambda: True  # type: ignore[method-assign]
+    monkeypatch.setattr("sys.stdin", stdin)
+    assert main(["add"]) == 1
+    assert "no time values" in capsys.readouterr().err
+
+
+def test_cli_main_sub_one_value(capsys: pytest.CaptureFixture[str]) -> None:
+    """Test in-process CLI sub with one value hits validation."""
+    assert main(["sub", "1:00"]) == 1
+    assert "at least two" in capsys.readouterr().err
+
+
+def test_cli_main_format_padded(capsys: pytest.CaptureFixture[str]) -> None:
+    """Test in-process CLI padded format output."""
+    assert main(["--format", "HH:MM:SS:PADDED", "add", "1:00:00"]) == 0
+    assert capsys.readouterr().out.strip() == "01:00:00"
