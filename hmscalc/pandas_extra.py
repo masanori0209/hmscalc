@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Iterable, Union
+from typing import TYPE_CHECKING, Iterable
 
 from .buckets import BucketTotal, RecordInput, aggregate_by_month, aggregate_by_week
 from .hms_time import HMSTime
@@ -15,15 +15,13 @@ def _require_pandas() -> type[pd]:
     try:
         import pandas as pd
     except ImportError as exc:  # pragma: no cover - exercised via importorskip in tests
-        raise ImportError(
-            "pandas is required for this feature. Install with: pip install 'hmscalc[pandas]'"
-        ) from exc
+        raise ImportError("pandas is required for this feature. Install with: pip install 'hmscalc[pandas]'") from exc
     return pd
 
 
 def parse_duration_series(series: "pd.Series", *, strict: bool = True) -> "pd.Series":
     """Parse a string column into :class:`HMSTime` objects."""
-    pd = _require_pandas()
+    _require_pandas()
     return series.map(lambda value: HMSTime(value, strict=strict)).astype(object)
 
 
@@ -41,10 +39,8 @@ def aggregate_weekly(
     strict: bool = True,
 ) -> "pd.DataFrame":
     """Aggregate a DataFrame by ISO week using :func:`buckets.aggregate_by_week`."""
-    pd = _require_pandas()
-    records: Iterable[RecordInput] = (
-        (row[date_column], row[duration_column]) for _, row in df.iterrows()
-    )
+    _require_pandas()
+    records: Iterable[RecordInput] = ((row[date_column], row[duration_column]) for _, row in df.iterrows())
     return bucket_totals_to_frame(aggregate_by_week(records, strict=strict))
 
 
@@ -56,10 +52,8 @@ def aggregate_monthly(
     strict: bool = True,
 ) -> "pd.DataFrame":
     """Aggregate a DataFrame by calendar month using :func:`buckets.aggregate_by_month`."""
-    pd = _require_pandas()
-    records: Iterable[RecordInput] = (
-        (row[date_column], row[duration_column]) for _, row in df.iterrows()
-    )
+    _require_pandas()
+    records: Iterable[RecordInput] = ((row[date_column], row[duration_column]) for _, row in df.iterrows())
     return bucket_totals_to_frame(aggregate_by_month(records, strict=strict))
 
 

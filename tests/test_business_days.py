@@ -12,7 +12,6 @@ from hmscalc.business_days import (
     business_day_range,
     count_business_days,
     is_business_day,
-    iter_business_days,
     next_business_day,
     previous_business_day,
 )

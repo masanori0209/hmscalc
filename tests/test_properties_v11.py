@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import sys
-from datetime import datetime, timedelta, time
+from datetime import datetime, time, timedelta
 
 import pytest
 
@@ -208,4 +208,3 @@ def test_business_scheduling_subset_of_all_days(start_offset: int, span_days: in
     )
     for slot in business_slots:
         assert business_days.is_business_day(slot.start.date())
-

@@ -108,7 +108,7 @@ def has_date_gaps(present: Iterable[date]) -> bool:
     unique = sorted(set(present))
     if len(unique) < 2:
         return False
-    return any((later - earlier).days > 1 for earlier, later in zip(unique, unique[1:]))
+    return any((later - earlier).days > 1 for earlier, later in zip(unique, unique[1:]))  # noqa: B905
 
 
 def gap_ranges(

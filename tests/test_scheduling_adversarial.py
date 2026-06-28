@@ -42,8 +42,7 @@ def _assert_slots_respect_buffers_and_busy(
         for busy_range in merged:
             overlaps = slot.reserved_start < busy_range.end and slot.reserved_end > busy_range.start
             assert not overlaps, (
-                f"slot {slot.start}–{slot.reserved_end} overlaps busy "
-                f"{busy_range.start}–{busy_range.end}"
+                f"slot {slot.start}–{slot.reserved_end} overlaps busy " f"{busy_range.start}–{busy_range.end}"
             )
 
 
@@ -60,12 +59,15 @@ def test_busy_covers_entire_window_no_gaps() -> None:
     busy = [(_dt("2026-06-28 09:00"), _dt("2026-06-28 18:00"))]
     gaps = free_time_gaps(busy, _dt("2026-06-28 09:00"), _dt("2026-06-28 18:00"))
     assert gaps == []
-    assert find_availability_slots(
-        busy,
-        _dt("2026-06-28 09:00"),
-        _dt("2026-06-28 18:00"),
-        duration="1:00",
-    ) == []
+    assert (
+        find_availability_slots(
+            busy,
+            _dt("2026-06-28 09:00"),
+            _dt("2026-06-28 18:00"),
+            duration="1:00",
+        )
+        == []
+    )
 
 
 def test_busy_outside_window_is_ignored() -> None:

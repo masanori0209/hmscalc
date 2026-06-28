@@ -459,9 +459,7 @@ class HMSTime:
 
         """
         if fmt not in _SUPPORTED_FORMATS:
-            raise ValueError(
-                f"Unsupported format: {fmt!r}. Use 'HH:MM', 'HH:MM:SS', or 'HH:MM:SS:PADDED'."
-            )
+            raise ValueError(f"Unsupported format: {fmt!r}. Use 'HH:MM', 'HH:MM:SS', or 'HH:MM:SS:PADDED'.")
         if fmt == "HH:MM:SS":
             return str(self)
         hh, mm, ss = self.to_tuple()

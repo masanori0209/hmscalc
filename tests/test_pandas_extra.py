@@ -6,13 +6,14 @@ from datetime import date
 
 import pytest
 
-pd = pytest.importorskip("pandas")
+pytest.importorskip("pandas")
 
-from hmscalc import HMSTime, pandas_extra
+from hmscalc import HMSTime, pandas_extra  # noqa: E402
 
 
 def test_parse_duration_series() -> None:
     """Test parsing a pandas Series to HMSTime objects."""
+    pd = pytest.importorskip("pandas")
     series = pd.Series(["1:00", "2:30"])
     parsed = pandas_extra.parse_duration_series(series)
     assert parsed.iloc[0] == HMSTime("1:00")
@@ -21,6 +22,7 @@ def test_parse_duration_series() -> None:
 
 def test_aggregate_weekly_dataframe() -> None:
     """Test weekly aggregation from DataFrame."""
+    pd = pytest.importorskip("pandas")
     df = pd.DataFrame(
         {
             "day": [date(2026, 6, 2), date(2026, 6, 3), date(2026, 6, 9)],
@@ -35,6 +37,7 @@ def test_aggregate_weekly_dataframe() -> None:
 
 def test_aggregate_monthly_dataframe() -> None:
     """Test monthly aggregation from DataFrame."""
+    pd = pytest.importorskip("pandas")
     df = pd.DataFrame(
         {
             "day": [date(2026, 6, 2), date(2026, 7, 1)],
@@ -48,6 +51,7 @@ def test_aggregate_monthly_dataframe() -> None:
 
 def test_duration_series_to_strings() -> None:
     """Test converting HMSTime series back to strings."""
+    pd = pytest.importorskip("pandas")
     series = pd.Series([HMSTime("1:00"), HMSTime("2:30:00")])
     strings = pandas_extra.duration_series_to_strings(series)
     assert strings.tolist() == ["1:00:00", "2:30:00"]

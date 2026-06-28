@@ -21,11 +21,9 @@ class NotTimeStringError(HMSTimeError):
     def __init__(self, value) -> None:  # type: ignore[no-untyped-def]
         """Initialize with the invalid value type."""
         if isinstance(value, bool):
-            super().__init__(f"Time input must be a string, got: bool")
+            super().__init__("Time input must be a string, got: bool")
             return
         if isinstance(value, int):
-            super().__init__(
-                f"Time input must be a string, got: int. Use HMSTime.from_seconds({value}) instead."
-            )
+            super().__init__(f"Time input must be a string, got: int. Use HMSTime.from_seconds({value}) instead.")
             return
         super().__init__(f"Time input must be a string, got: {type(value).__name__}")

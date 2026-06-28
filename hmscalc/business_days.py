@@ -17,6 +17,7 @@ class BusinessCalendar:
     holidays: frozenset[date] = frozenset()
 
     def __post_init__(self) -> None:
+        """Validate weekday values."""
         for weekday in self.weekdays:
             if not 0 <= weekday <= 6:
                 raise ValueError("weekdays must be integers in 0..6 (Mon=0, Sun=6)")

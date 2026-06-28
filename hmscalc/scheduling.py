@@ -61,6 +61,7 @@ class DateTimeRange:
     end: datetime
 
     def __post_init__(self) -> None:
+        """Validate that the interval start precedes the end."""
         if self.start >= self.end:
             raise ValueError("start must be before end")
 

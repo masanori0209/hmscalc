@@ -6,7 +6,7 @@ import datetime
 
 import pytest
 
-from hmscalc import HMSTime, InvalidDateFormatError, InvalidTimeFormatError, NotTimeStringError, dates
+from hmscalc import HMSTime, InvalidTimeFormatError, NotTimeStringError, dates
 
 
 def test_sum_strings_empty_list() -> None:
@@ -27,14 +27,14 @@ def test_sum_strings_invalid_entry_raises() -> None:
 
 
 def test_timedelta_add_commutative_with_seconds() -> None:
-    """radd and add must agree for timedelta operands."""
+    """Radd and add must agree for timedelta operands."""
     t = HMSTime("1:00:00")
     delta = datetime.timedelta(minutes=30)
     assert t + delta == delta + t
 
 
 def test_timedelta_sub_does_not_support_rsub_from_timedelta() -> None:
-    """timedelta - HMSTime remains unsupported (NotImplemented)."""
+    """Timedelta - HMSTime remains unsupported (NotImplemented)."""
     t = HMSTime("1:00:00")
     delta = datetime.timedelta(minutes=30)
     assert delta.__sub__(t) == NotImplemented
@@ -80,7 +80,7 @@ def test_has_date_gaps_duplicate_dates() -> None:
 
 
 def test_monthrange_invalid_month() -> None:
-    """month must be 1..12."""
+    """Month must be 1..12."""
     with pytest.raises(ValueError, match="month must be"):
         dates.monthrange(2026, 0)
     with pytest.raises(ValueError, match="month must be"):
@@ -103,7 +103,7 @@ def test_combine_negative_time_subtracts_from_midnight() -> None:
 
 
 def test_missing_datetimes_invalid_range() -> None:
-    """start after end is rejected."""
+    """Start after end is rejected."""
     start = datetime.datetime(2026, 6, 2, 9, 0)
     end = datetime.datetime(2026, 6, 1, 9, 0)
     with pytest.raises(ValueError, match="start must be on or before end"):
@@ -111,7 +111,7 @@ def test_missing_datetimes_invalid_range() -> None:
 
 
 def test_not_time_string_bool_not_int_hint() -> None:
-    """bool must not use the int-specific hint message."""
+    """Bool must not use the int-specific hint message."""
     with pytest.raises(NotTimeStringError, match="bool"):
         HMSTime(True)  # type: ignore[arg-type]
     with pytest.raises(NotTimeStringError, match="from_seconds"):

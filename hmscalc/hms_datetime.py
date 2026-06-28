@@ -59,11 +59,13 @@ class HMSDateTime:
         return self.time.format(fmt)
 
     def __add__(self, other: timedelta) -> HMSDateTime:
+        """Add a timedelta to this value."""
         if not isinstance(other, timedelta):
             return NotImplemented
         return HMSDateTime.from_datetime(self.to_datetime() + other)
 
     def __sub__(self, other: Union[HMSDateTime, timedelta]) -> Union[HMSDateTime, timedelta]:
+        """Subtract a timedelta or another HMSDateTime."""
         if isinstance(other, timedelta):
             return HMSDateTime.from_datetime(self.to_datetime() - other)
         if isinstance(other, HMSDateTime):
@@ -71,4 +73,5 @@ class HMSDateTime:
         return NotImplemented
 
     def __repr__(self) -> str:
+        """Return the official string representation."""
         return f"HMSDateTime({self.day!r}, {self.time!r})"
