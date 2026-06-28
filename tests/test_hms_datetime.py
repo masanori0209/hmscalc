@@ -37,6 +37,7 @@ def test_subtract_timedelta() -> None:
     """Test subtracting timedelta."""
     value = HMSDateTime.from_strings("2026-06-28", "3:00:00")
     shifted = value - timedelta(hours=1)
+    assert isinstance(shifted, HMSDateTime)
     assert shifted.time == HMSTime("2:00:00")
 
 
@@ -69,13 +70,13 @@ def test_combine_with_hms_time() -> None:
 def test_add_wrong_type_returns_not_implemented() -> None:
     """Test unsupported add operand returns NotImplemented."""
     value = HMSDateTime.from_strings("2026-06-28", "1:00")
-    assert value.__add__(1) is NotImplemented  # type: ignore[arg-type]
+    assert value.__add__(1) is NotImplemented  # type: ignore[operator]
 
 
 def test_sub_wrong_type_returns_not_implemented() -> None:
     """Test unsupported sub operand returns NotImplemented."""
     value = HMSDateTime.from_strings("2026-06-28", "1:00")
-    assert value.__sub__(1) is NotImplemented  # type: ignore[arg-type]
+    assert value.__sub__(1) is NotImplemented  # type: ignore[operator]
 
 
 def test_combine_with_lenient() -> None:

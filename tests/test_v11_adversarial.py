@@ -37,7 +37,7 @@ def test_timedelta_sub_does_not_support_rsub_from_timedelta() -> None:
     """Timedelta - HMSTime remains unsupported (NotImplemented)."""
     t = HMSTime("1:00:00")
     delta = datetime.timedelta(minutes=30)
-    assert delta.__sub__(t) == NotImplemented
+    assert delta.__sub__(t) is NotImplemented  # type: ignore[operator]
 
 
 def test_abs_of_zero_unchanged() -> None:

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Iterable
+from typing import TYPE_CHECKING, Any, Iterable
 
 from .buckets import BucketTotal, RecordInput, aggregate_by_month, aggregate_by_week
 from .hms_time import HMSTime
@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     import pandas as pd
 
 
-def _require_pandas() -> type[pd]:
+def _require_pandas() -> Any:
     try:
         import pandas as pd
     except ImportError as exc:  # pragma: no cover - exercised via importorskip in tests
